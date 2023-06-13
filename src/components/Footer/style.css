@@ -1,0 +1,16 @@
+.Footer{
+   display: flex;
+   justify-content: space-between;
+   color: #d0d1d5;
+   padding: 5px;
+}
+
+.Footer button{
+   background: inherit;
+   border: none;
+   color: #d0d1d5;
+}
+
+.Footer-active{
+   border: 1px solid grey !important;
+}
