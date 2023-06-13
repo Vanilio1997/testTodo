@@ -1,7 +1,7 @@
 import { ITasksStore } from "types";
 import { tasks } from "data";
 import { ITask } from "types";
-import {generateNewId} from "utilits"
+import {generateNewId} from "utilits/utilits"
 
 const intitialState: ITasksStore = {
    tasks: [],

@@ -1,6 +1,6 @@
-import React from 'react'
-import { ITask, TTasks } from 'types'
-import { Task } from 'components/Task/Task'
+import React from 'react';
+import { ITask, TTasks } from 'types';
+import { Task } from 'components/Task/Task';
 
 interface ITaskList {
   tasks:TTasks,

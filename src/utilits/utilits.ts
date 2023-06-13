@@ -1,4 +1,6 @@
-export const generateNewId = (state) => {
+import { TTasks } from "types";
+
+export const generateNewId = (state:TTasks): number => {
    let maxCode = 0;
    if (state.length){
     state.forEach(element => {

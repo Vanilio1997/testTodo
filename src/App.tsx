@@ -5,54 +5,37 @@ import TaskList from 'components/TaskList/TaskList';
 import Footer  from 'components/Footer/Footer';
 import { useDispatch } from 'react-redux';
 import { UseTypedSelector } from 'hooks/UseTypedSelector';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 function App() {
   const dispatch = useDispatch();
+  const store = UseTypedSelector(store => store);
   const tasksList = UseTypedSelector(store => store.taskData.filtredTasks); 
   const itemsLeft = UseTypedSelector(store => store.taskData.itemsLeft); 
   const rootTaskList = UseTypedSelector(store => store.taskData.filtredTasks);
   const filterType = UseTypedSelector(store => store.taskData.filtredType);
   const isVisible = UseTypedSelector(store => store.taskData.isTaskListOpen);
 
-  function changeSelectedValue(id:number){
-    dispatch({type: 'CHANGESELECTEDVALUE' , payload: id});
-  };
-
-  function pickAllCompleted(){
-    dispatch({type: 'PICKALLCOMPLETED'});
-  };
-
-  function pickNotcompleted(){
-    dispatch({type:'PICKNOTCOMPLETED'});
-  };
-
-  function pickAll(){
-    dispatch({type: 'PICKALL'});
-  };
-
-  function clearcompleted(){
-    dispatch({type:'ClEARCOMPLETED'});
-  };
-
-  function addNewTask(text:string){
-    dispatch({type: 'ADDNEWTASK', payload: text});
-  };
-
-  function changeTaskListVisible(){
-    dispatch({type:'CHANGETASKLISTVISIBLE'})
+  const callbacks = {
+    changeSelectedValue: useCallback( (id:number) =>  dispatch({type: 'CHANGESELECTEDVALUE' , payload: id}), [store]),
+    pickAllCompleted: useCallback( () =>  dispatch({type: 'PICKALLCOMPLETED'}), [store]),
+    pickNotcompleted: useCallback( () =>  dispatch({type: 'PICKNOTCOMPLETED'}), [store]),
+    pickAll: useCallback( () =>  dispatch({type: 'PICKALL'}), [store]),
+    clearcompleted: useCallback( () =>  dispatch({type: 'ClEARCOMPLETED'}), [store]),
+    changeTaskListVisible: useCallback( () =>  dispatch({type: 'CHANGETASKLISTVISIBLE'}), [store]),
+    addNewTask: useCallback( (text:string) =>  dispatch({type: 'ADDNEWTASK' , payload: text}), [store]),
   }
 
   useEffect(()=>{
     switch (filterType){
       case 'active':
-        pickNotcompleted()
+        callbacks.pickNotcompleted()
         break
       case 'all':
-        pickAll()
+        callbacks.pickAll()
         break
       case 'completed':
-        pickAllCompleted()
+        callbacks.pickAllCompleted()
         break
     }
   },[rootTaskList.length]);
@@ -61,21 +44,21 @@ function App() {
     <div className="App">
       <div className="App_container">
         <Header 
-          changeTaskListVisible={changeTaskListVisible} 
-          addTask={addNewTask} 
+          changeTaskListVisible={callbacks.changeTaskListVisible} 
+          addTask={callbacks.addNewTask} 
           isVisible={isVisible}
         />
         <TaskList 
           tasks={tasksList} 
           isVisible={isVisible} 
-          onChangeSelectValue={changeSelectedValue}
+          onChangeSelectValue={callbacks.changeSelectedValue}
         />
         <Footer 
-          clearCompleted={clearcompleted}
+          clearCompleted={callbacks.clearcompleted}
           itemsLeft={itemsLeft}
-          pickAll={pickAll}
-          pickAllCompleted={pickAllCompleted}
-          pickNotCompleted={pickNotcompleted}
+          pickAll={callbacks.pickAll}
+          pickAllCompleted={callbacks.pickAllCompleted}
+          pickNotCompleted={callbacks.pickNotcompleted}
           fiterType={filterType}
         />
       </div>

@@ -3,7 +3,7 @@ import { IAction } from "../reducer";
 import { ITasksStore } from "types";
 import { tasks } from "data";
 import { UseTypedSelector } from "hooks/UseTypedSelector";
-import { generateNewId } from "utilits";
+import { generateNewId } from "utilits/utilits";
 
 // const state = UseTypedSelector(state => state.taskData);
 const state:ITasksStore = {
