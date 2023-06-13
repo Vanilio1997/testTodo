@@ -17,7 +17,7 @@ const TaskList = ({onChangeSelectValue,tasks,isVisible}: ITaskList) => {
         <div>
           { 
             tasks.map( (task) => (
-              <Task onChangeSelectValue={onChangeSelectValue} task={task}/>
+              <Task onChangeSelectValue={onChangeSelectValue} task={task} key={task.id}/>
             )) 
           }
         </div>
